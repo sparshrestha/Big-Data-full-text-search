@@ -1,0 +1,31 @@
+function getData() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Live");
+  
+  var newsdate = '=IMPORTXML("http://www.ekantipur.com", A1)';
+  var newstitle = '=IMPORTXML("http://www.ekantipur.com", A2)';
+  var newsauthor = '=IMPORTXML("http://www.ekantipur.com", A3)';
+  sheet.getRange('B2').setValue(newsdate);
+  sheet.getRange('C2').setValue(newstitle);
+  sheet.getRange('D2').setValue(newsauthor);
+
+  
+  var sheet2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Live");
+  var row = sheet2.getLastRow();
+  
+  // Trigger every 1 hour.
+  ScriptApp.newTrigger('getData')
+      .timeBased()
+      .everyHours(1)
+      .create()
+ 
+}
+
+function deleteTrigger() {
+  
+  // Loop over all triggers and delete them
+  var allTriggers = ScriptApp.getProjectTriggers(THT);
+  
+  for (var i = 0; i < allTriggers.length; i++) {
+    ScriptApp.deleteTrigger(allTriggers[i]);
+  }
+}
